@@ -1,16 +1,18 @@
 CC		=	cc
-CFLAGS	=	-Wall -Wextra -Werror #-fsanitize=address,leak
+CFLAGS	=	-Wall -Wextra -Werror -fsanitize=address,leak -g
 
 LIBDIR	=	libft
 
-IFLAGS	=	-I$(LIBDIR) -IHeaders
+IFLAGS	=	-I$(LIBDIR) -IHEADERS
 LIBS	=	$(LIBDIR)/libft.a
 
 
 ####################################===SOURCE FILES===####################################
 
 SRCDIR		=	SRCS
-SRCFILES	=	main.c
+SRCFILES	=	main.c			initialise_towers.c		parse_clues.c		\
+				free_towers.c	generate_perms.c		find_row_options.c	\
+				solve_towers.c
 SRCS		=	$(addprefix $(SRCDIR)/, $(SRCFILES))
 
 ##########################################################################################

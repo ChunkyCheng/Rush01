@@ -1,18 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   rush01.h                                           :+:      :+:    :+:   */
+/*   solve_towers.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jchuah <jchuah@student.42kl.edu.my>        +#+  +:+       +#+        */
+/*   By: jchuah <jeremychuahtm@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/13 12:45:21 by jchuah            #+#    #+#             */
-/*   Updated: 2025/08/13 12:46:00 by jchuah           ###   ########.fr       */
+/*   Created: 2025/08/16 20:31:35 by jchuah            #+#    #+#             */
+/*   Updated: 2025/08/16 20:35:54 by jchuah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RUSH01_H
-# define RUSH01_H
+#include "rush01.h"
 
-# include "libft.h"
+int	solve_towers(t_towers *towers)
+{
+	int	i;
 
-#endif
+	i = 0;
+	while (i < towers->grid_size)
+	{
+		if (towers->row_options[i].size == 0)
+			return (UNSOLVED);
+		i++;
+	}
+	return (SOLVED);
+}

@@ -6,11 +6,59 @@
 /*   By: jchuah <jchuah@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 09:14:18 by jchuah            #+#    #+#             */
-/*   Updated: 2025/08/13 14:24:58 by jchuah           ###   ########.fr       */
+/*   Updated: 2025/08/16 20:35:32 by jchuah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rush01.h"
+
+/*
+static void	print_perms(t_towers *towers)
+{
+	int		i;
+	int		j;
+	t_perm	*perms;
+
+	i = 0;
+	perms = towers->perms;
+	ft_printf("%d permutations\n", towers->perm_count);
+	while (i < towers->perm_count)
+	{
+		j = 0;
+		ft_printf("{ ");
+		while (j < towers->grid_size)
+			ft_printf("%d ", perms[i].values[j++]);
+		ft_printf("}, left vis: %d, right vis: %d\n",
+			perms[i].left_vis, perms[i].right_vis);
+		i++;
+	}
+}
+*/
+
+static void	print_towers(t_towers *towers)
+{
+	int			i;
+	int			j;
+	t_permlst	row_options;
+	int			*row;
+
+	i = 0;
+	while (i < towers->grid_size)
+	{
+		row_options = towers->row_options[i];
+		if (row_options.indx >= row_options.size)
+			ft_printf("(null)\n");
+		else
+		{
+			row = row_options.perms[row_options.indx].values;
+			j = 0;
+			while (j < towers->grid_size - 1)
+				ft_printf("%d ", row[j++]);
+			ft_printf("%d\n", row[j]);
+		}
+		i++;
+	}
+}
 
 static int	integer_check(char *str)
 {
@@ -23,33 +71,10 @@ static int	integer_check(char *str)
 	return (1);
 }
 
-static int	get_grid_size(char **argv)
-{
-	int	i;
-
-	i = 0;
-	while (argv[i])
-		i++;
-	return (i);
-}
-
-static void	free_rush01(char **argv, int *grid, int *clues)
-{
-	char	**origin;
-
-	origin = argv;
-	while (*argv)
-		free(*argv++);
-	free(origin);
-	free(grid);
-	free(clues);
-}
-
 int	main(int argc, char *argv[])
 {
-	int	clue_count;
-	int	*grid;
-	int	*clues;
+	int			errorcode;
+	t_towers	towers;
 
 	if (argc != 2)
 	{
@@ -58,18 +83,17 @@ int	main(int argc, char *argv[])
 	}
 	if (!integer_check(argv[1]))
 		return (ft_printf("All clues must be positive integers\n") * 0 + 2);
-	argv = ft_split(argv[1], " \t\n");
-	if (!argv)
-		return (ft_printf("Memory allocation error\n") * 0 + 3);
-	clue_count = get_grid_size(argv);
-	if (clue_count == 0 || (clue_count % 4) != 0)
-		return (ft_printf("Clue count  must be a multiple of 4\n") * 0 + 4);
-	grid = (int *)malloc(clue_count * clue_count / 16 * sizeof(int));
-	clues = (int *)malloc(clue_count * sizeof(int));
-	if (!clues || !grid)
-	{
-		free_rush01(argv, grid, clues);
-		return (ft_printf("Memory allocation error\n") * 0 + 3);
-	}
-	free_rush01(argv, grid, clues);
+	errorcode = initialise_towers(argv, &towers);
+	if (errorcode != 0)
+		return (errorcode);
+	generate_perms(&towers);
+	errorcode = find_row_options(&towers);
+	if (errorcode != 0)
+		return (errorcode);
+	if (solve_towers(&towers) == SOLVED)
+		print_towers(&towers);
+	else
+		ft_printf("No solution found\n");
+	free_towers(&towers);
+	return (0);
 }
