@@ -6,7 +6,7 @@
 /*   By: jchuah <jeremychuahtm@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/16 20:31:35 by jchuah            #+#    #+#             */
-/*   Updated: 2025/08/18 01:56:15 by jchuah           ###   ########.fr       */
+/*   Updated: 2025/08/18 03:32:53 by jchuah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,5 @@ int	solve_towers(t_towers *towers)
 			return (UNSOLVED);
 		i++;
 	}
-	ft_bzero(towers->colmask, GRID_SIZE_MAX * sizeof(int));
 	return (solution_search(towers, 0));
 }

@@ -6,7 +6,7 @@
 /*   By: jchuah <jeremychuahtm@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 16:24:46 by jchuah            #+#    #+#             */
-/*   Updated: 2025/08/18 03:27:24 by jchuah           ###   ########.fr       */
+/*   Updated: 2025/08/18 03:33:48 by jchuah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ static int	malloc_towers(t_towers *towers, char **argv)
 	ft_bzero(towers->row_options, grid_size * sizeof(t_permlst));
 	ft_bzero(towers->col_options, grid_size * sizeof(t_permlst));
 	towers->clues = (int *)malloc(clue_count * sizeof(int));
+	ft_bzero(towers->colmask, grid_size * sizeof(int));
+	ft_bzero(towers->rowmask, grid_size * sizeof(int));
 	towers->grid_size = grid_size;
 	return (0);
 }
