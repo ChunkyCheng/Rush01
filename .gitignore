@@ -2,3 +2,4 @@ rush-01
 *.a
 *.o
 OBJS/
+*.swp
