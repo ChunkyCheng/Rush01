@@ -6,7 +6,7 @@
 /*   By: jchuah <jeremychuahtm@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/16 20:31:35 by jchuah            #+#    #+#             */
-/*   Updated: 2025/08/17 10:39:36 by jchuah           ###   ########.fr       */
+/*   Updated: 2025/08/18 01:41:08 by jchuah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,16 +24,28 @@ static void	print_candidate(int *candidate, int size)
 }
 */
 
-static void	addto_usedmask(int *usedmask, int *candidate, int size)
+static void	addto_mask(int *mask, int *candidate, int size)
 {
-	while (size--)
-		usedmask[size] |= (1 << (candidate[size] - 1));
+	int	i;
+
+	i = 0;
+	while (i < size)
+	{
+		mask[i] |= (1 << (candidate[i] - 1));
+		i++;
+	}
 }
 
-static void	rmfrom_usedmask(int *usedmask, int *candidate, int size)
+static void	rmfrom_mask(int *mask, int *candidate, int size)
 {
-	while (size--)
-		usedmask[size] &= ~(1 << (candidate[size] - 1));
+	int	i;
+
+	i = 0;
+	while (i < size)
+	{
+		mask[i] &= ~(1 << (candidate[i] - 1));
+		i++;
+	}
 }
 
 static int	isclue_conflict(t_towers *towers, int depth)
@@ -46,7 +58,7 @@ static int	isclue_conflict(t_towers *towers, int depth)
 	return (0);
 }
 
-static int	solution_search(t_towers *towers, int *usedmask, int depth)
+static int	solution_search(t_towers *towers, int depth)
 {
 	int			option_indx;
 	t_permlst	*options;
@@ -59,16 +71,16 @@ static int	solution_search(t_towers *towers, int *usedmask, int depth)
 	while (option_indx < options->size)
 	{
 		candidate = options->perms[option_indx].values;
-		if (depth == 0 || !isplaced(candidate, usedmask, towers->grid_size))
+		if (!isplaced(towers->colmask, candidate, towers->grid_size))
 		{
 			options->indx = option_indx;
-			addto_usedmask(usedmask, candidate, towers->grid_size);
+			addto_mask(towers->colmask, candidate, towers->grid_size);
 			if (!isclue_conflict(towers, depth))
 			{
-				if (solution_search(towers, usedmask, depth + 1) == SOLVED)
+				if (solution_search(towers, depth + 1) == SOLVED)
 					return (SOLVED);
 			}
-			rmfrom_usedmask(usedmask, candidate, towers->grid_size);
+			rmfrom_mask(towers->colmask, candidate, towers->grid_size);
 		}
 		option_indx++;
 	}
@@ -78,7 +90,6 @@ static int	solution_search(t_towers *towers, int *usedmask, int depth)
 int	solve_towers(t_towers *towers)
 {
 	int	i;
-	int	usedmask[GRID_SIZE_MAX];
 
 	i = 0;
 	while (i < towers->grid_size)
@@ -87,6 +98,6 @@ int	solve_towers(t_towers *towers)
 			return (UNSOLVED);
 		i++;
 	}
-	ft_bzero(usedmask, GRID_SIZE_MAX * sizeof(int));
-	return (solution_search(towers, usedmask, 0));
+	ft_bzero(towers->colmask, GRID_SIZE_MAX * sizeof(int));
+	return (solution_search(towers, 0));
 }

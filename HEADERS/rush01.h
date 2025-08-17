@@ -6,7 +6,7 @@
 /*   By: jchuah <jchuah@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 12:45:21 by jchuah            #+#    #+#             */
-/*   Updated: 2025/08/16 23:53:42 by jchuah           ###   ########.fr       */
+/*   Updated: 2025/08/18 01:41:38 by jchuah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ typedef struct s_towers
 	t_perm		*perms;
 	t_permlst	*row_options;
 	int			*clues;
+	int			colmask[GRID_SIZE_MAX];
+	int			rowmask[GRID_SIZE_MAX];
 }	t_towers;
 
 int		initialise_towers(char **argv, t_towers *towers);
@@ -55,7 +57,7 @@ int		find_row_options(t_towers *towers);
 
 //solving functions
 int		solve_towers(t_towers *towers);
-int		isplaced(int *candidate, int *usedmask, int size);
+int		isplaced(int *mask, int *candidate, int size);
 int		istopclue_conflict(t_towers *towers, int depth);
 int		isbotclue_conflict(t_towers *towers);
 

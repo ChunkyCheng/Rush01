@@ -6,18 +6,22 @@
 /*   By: jchuah <jeremychuahtm@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/16 22:03:36 by jchuah            #+#    #+#             */
-/*   Updated: 2025/08/16 22:46:04 by jchuah           ###   ########.fr       */
+/*   Updated: 2025/08/18 01:42:00 by jchuah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rush01.h"
 
-int	isplaced(int *candidate, int *usedmask, int size)
+int	isplaced(int *mask, int *candidate, int size)
 {
-	while (size--)
+	int	i;
+
+	i = 0;
+	while (i < size)
 	{
-		if (usedmask[size] & (1 << (candidate[size] - 1)))
+		if (mask[i] & (1 << (candidate[i] - 1)))
 			return (1);
+		i++;
 	}
 	return (0);
 }
