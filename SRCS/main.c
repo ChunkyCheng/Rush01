@@ -6,7 +6,7 @@
 /*   By: jchuah <jchuah@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 09:14:18 by jchuah            #+#    #+#             */
-/*   Updated: 2025/08/16 23:59:07 by jchuah           ###   ########.fr       */
+/*   Updated: 2025/08/18 03:03:27 by jchuah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int	main(int argc, char *argv[])
 	if (errorcode != 0)
 		return (errorcode);
 	generate_perms(&towers);
-	errorcode = find_row_options(&towers);
+	errorcode = find_row_and_col_options(&towers);
 	if (errorcode != 0)
 		return (errorcode);
 	if (solve_towers(&towers) == SOLVED)

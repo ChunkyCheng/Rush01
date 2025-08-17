@@ -6,7 +6,7 @@
 /*   By: jchuah <jeremychuahtm@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 16:24:46 by jchuah            #+#    #+#             */
-/*   Updated: 2025/08/16 18:27:31 by jchuah           ###   ########.fr       */
+/*   Updated: 2025/08/18 03:27:24 by jchuah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,8 @@ static int	malloc_towers(t_towers *towers, char **argv)
 		i--;
 	}
 	towers->perms = (t_perm *)malloc(towers->perm_count * sizeof(t_perm));
-	towers->row_options = (t_permlst *)ft_calloc(grid_size, sizeof(t_permlst));
+	ft_bzero(towers->row_options, grid_size * sizeof(t_permlst));
+	ft_bzero(towers->col_options, grid_size * sizeof(t_permlst));
 	towers->clues = (int *)malloc(clue_count * sizeof(int));
 	towers->grid_size = grid_size;
 	return (0);
@@ -74,7 +75,7 @@ int	initialise_towers(char **argv, t_towers *towers)
 		free_double_array(argv);
 		return (errorcode);
 	}
-	if (!towers->perms || !towers->row_options || !towers->clues)
+	if (!towers->perms || !towers->clues)
 	{
 		free_double_array(argv);
 		free_towers(towers);

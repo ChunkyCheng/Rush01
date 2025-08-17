@@ -1,28 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_towers.c                                      :+:      :+:    :+:   */
+/*   fill_option_matches.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jchuah <jeremychuahtm@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/15 16:24:46 by jchuah            #+#    #+#             */
-/*   Updated: 2025/08/18 03:29:36 by jchuah           ###   ########.fr       */
+/*   Created: 2025/08/16 18:35:51 by jchuah            #+#    #+#             */
+/*   Updated: 2025/08/18 03:01:46 by jchuah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rush01.h"
 
-void	free_towers(t_towers *towers)
+void	fill_matches(t_towers *towers, t_perm *options,
+int clue1, int clue2)
 {
-	int	i;
+	t_perm	*fullperms;
+	int		i;
+	int		option_indx;
 
-	free(towers->perms);
+	fullperms = towers->perms;
 	i = 0;
-	while (i < towers->grid_size)
+	option_indx = 0;
+	while (i < towers->perm_count)
 	{
-		free(towers->row_options[i].perms);
-		free(towers->col_options[i].perms);
+		if (clue1 == fullperms[i].left_vis
+			&& clue2 == fullperms[i].right_vis)
+		{
+			options[option_indx] = fullperms[i];
+			option_indx++;
+		}
 		i++;
 	}
-	free(towers->clues);
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   find_row_options.c                                 :+:      :+:    :+:   */
+/*   find_row_and_col_options.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jchuah <jeremychuahtm@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/16 18:35:51 by jchuah            #+#    #+#             */
-/*   Updated: 2025/08/16 23:29:35 by jchuah           ###   ########.fr       */
+/*   Updated: 2025/08/18 03:06:53 by jchuah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,29 +31,7 @@ int *clue_matches, int clue_match_size)
 	}
 }
 
-static	void	find_matches(t_towers *towers, t_perm *options,
-int left_clue, int right_clue)
-{
-	t_perm	*fullperms;
-	int		i;
-	int		option_indx;
-
-	fullperms = towers->perms;
-	i = 0;
-	option_indx = 0;
-	while (i < towers->perm_count)
-	{
-		if (left_clue == fullperms[i].left_vis
-			&& right_clue == fullperms[i].right_vis)
-		{
-			options[option_indx] = fullperms[i];
-			option_indx++;
-		}
-		i++;
-	}
-}
-
-static int	fill_options(t_towers *towers,
+static int	fill_row_options(t_towers *towers,
 int *clue_matches, int clue_match_size)
 {
 	t_permlst	*row_options;
@@ -75,7 +53,7 @@ int *clue_matches, int clue_match_size)
 			= (t_perm *)malloc(row_options[i].size * sizeof(t_perm));
 		if (!row_options[i].perms)
 			return (ft_printf("Memory allocation error\n") * 0 + 21);
-		find_matches(towers, row_options[i].perms, *left_clue, *right_clue);
+		fill_matches(towers, row_options[i].perms, *left_clue, *right_clue);
 		left_clue++;
 		right_clue++;
 		i++;
@@ -83,7 +61,51 @@ int *clue_matches, int clue_match_size)
 	return (0);
 }
 
-int	find_row_options(t_towers *towers)
+static int	fill_col_options(t_towers *towers,
+int *clue_matches, int clue_match_size)
+{
+	t_permlst	*col_options;
+	int			*up_clue;
+	int			*down_clue;
+	int			i;
+
+	col_options = towers->col_options;
+	up_clue = &towers->clues[0];
+	down_clue = &towers->clues[towers->grid_size];
+	i = 0;
+	while (i < towers->grid_size)
+	{
+		col_options[i].size
+			= clue_matches[*up_clue * clue_match_size + *down_clue];
+		if (col_options[i].size == 0)
+			return (0);
+		col_options[i].perms
+			= (t_perm *)malloc(col_options[i].size * sizeof(t_perm));
+		if (!col_options[i].perms)
+			return (ft_printf("Memory allocation error\n") * 0 + 21);
+		fill_matches(towers, col_options[i].perms, *up_clue, *down_clue);
+		up_clue++;
+		down_clue++;
+		i++;
+	}
+	return (0);
+}
+
+static int	fill_options(t_towers *towers,
+int *clue_matches, int clue_match_size)
+{
+	int	errorcode;
+
+	errorcode = fill_row_options(towers, clue_matches, clue_match_size);
+	if (errorcode != 0)
+		return (errorcode);
+	errorcode = fill_col_options(towers, clue_matches, clue_match_size);
+	if (errorcode != 0)
+		return (errorcode);
+	return (0);
+}
+
+int	find_row_and_col_options(t_towers *towers)
 {
 	int	errorcode;
 	int	*clue_matches;

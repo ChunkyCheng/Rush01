@@ -6,7 +6,7 @@
 /*   By: jchuah <jeremychuahtm@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/16 20:31:35 by jchuah            #+#    #+#             */
-/*   Updated: 2025/08/18 01:41:08 by jchuah           ###   ########.fr       */
+/*   Updated: 2025/08/18 01:56:15 by jchuah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,7 @@ static int	isclue_conflict(t_towers *towers, int depth)
 {
 	if (istopclue_conflict(towers, depth))
 		return (1);
-	if (depth == towers->grid_size - 1
-		&& isbotclue_conflict(towers))
+	if (isbotclue_conflict(towers, depth))
 		return (1);
 	return (0);
 }
