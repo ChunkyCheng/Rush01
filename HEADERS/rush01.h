@@ -6,7 +6,7 @@
 /*   By: jchuah <jchuah@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 12:45:21 by jchuah            #+#    #+#             */
-/*   Updated: 2025/08/16 20:35:28 by jchuah           ###   ########.fr       */
+/*   Updated: 2025/08/16 23:53:42 by jchuah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,12 @@ void	generate_perms(t_towers *towers);
 void	free_towers(t_towers *towers);
 int		parse_clues(t_towers *towers, char **argv);
 int		find_row_options(t_towers *towers);
-int		solve_towers(t_towers *towers);
 
+//solving functions
+int		solve_towers(t_towers *towers);
+int		isplaced(int *candidate, int *usedmask, int size);
+int		istopclue_conflict(t_towers *towers, int depth);
+int		isbotclue_conflict(t_towers *towers);
+
+void	print_towers(t_towers *towers);
 #endif

@@ -6,7 +6,7 @@
 /*   By: jchuah <jchuah@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 09:14:18 by jchuah            #+#    #+#             */
-/*   Updated: 2025/08/16 20:35:32 by jchuah           ###   ########.fr       */
+/*   Updated: 2025/08/16 23:59:07 by jchuah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static void	print_perms(t_towers *towers)
 }
 */
 
-static void	print_towers(t_towers *towers)
+void	print_towers(t_towers *towers)
 {
 	int			i;
 	int			j;
