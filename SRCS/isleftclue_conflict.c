@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   istopclue_conflict.c                               :+:      :+:    :+:   */
+/*   isleftclue_conflict.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jchuah <jeremychuahtm@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/16 22:06:01 by jchuah            #+#    #+#             */
-/*   Updated: 2025/08/18 03:42:01 by jchuah           ###   ########.fr       */
+/*   Updated: 2025/08/18 03:41:44 by jchuah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,21 +25,21 @@ static int	isclue_conflict(int seen, int clue, int max, int grid_size)
 	return (0);
 }
 
-static int	iscol_conflict(t_towers *towers, int colnum, int depth, int clue)
+static int	isrow_conflict(t_towers *towers, int rownum, int depth, int clue)
 {
-	t_permlst	*row_options;
+	t_permlst	*col_options;
 	int			seen;
 	int			max;
 	int			current;
 	int			i;
 
-	row_options = towers->row_options;
+	col_options = towers->col_options;
 	seen = 0;
 	max = 0;
 	i = 0;
 	while (i <= depth && max != towers->grid_size)
 	{
-		current = row_options[i].perms[row_options[i].indx].values[colnum];
+		current = col_options[i].perms[col_options[i].indx].values[rownum];
 		if (max < current)
 		{
 			seen++;
@@ -54,18 +54,18 @@ static int	iscol_conflict(t_towers *towers, int colnum, int depth, int clue)
 	return (0);
 }
 
-int	istopclue_conflict(t_towers *towers, int depth)
+int	isleftclue_conflict(t_towers *towers, int depth)
 {
-	int	colnum;
+	int	rownum;
 	int	clue;
 
-	colnum = depth;
-	while (colnum < towers->grid_size)
+	rownum = depth + 1;
+	while (rownum < towers->grid_size)
 	{
-		clue = towers->clues[colnum];
-		if (iscol_conflict(towers, colnum, depth, clue))
+		clue = towers->clues[towers->grid_size * 2 + rownum];
+		if (isrow_conflict(towers, rownum, depth, clue))
 			return (1);
-		colnum++;
+		rownum++;
 	}
 	return (0);
 }

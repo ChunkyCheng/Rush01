@@ -6,7 +6,7 @@
 /*   By: jchuah <jchuah@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 12:45:21 by jchuah            #+#    #+#             */
-/*   Updated: 2025/08/18 03:28:24 by jchuah           ###   ########.fr       */
+/*   Updated: 2025/08/18 04:22:03 by jchuah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,10 @@
 # define GRID_SIZE_MAX	9
 # define SOLVED			1
 # define UNSOLVED		0
+# define UP				0
+# define DOWN			1
+# define LEFT			2
+# define RIGHT			3
 
 //stores a permutation and the clues it matches
 typedef struct s_permutation
@@ -59,9 +63,15 @@ void	fill_matches(t_towers *towers, t_perm *options, int clue1, int clue2);
 
 //solving functions
 int		solve_towers(t_towers *towers);
+int		rowfits(t_towers *towers, int *candidate, int depth);
+int		colfits(t_towers *towers, int *candidate, int depth);
+void	addto_mask(int *mask, int *candidate, int size);
+void	rmfrom_mask(int *mask, int *candidate, int size);
 int		isplaced(int *mask, int *candidate, int size);
 int		istopclue_conflict(t_towers *towers, int depth);
 int		isbotclue_conflict(t_towers *towers, int depth);
+int		isleftclue_conflict(t_towers *towers, int depth);
+int		isrightclue_conflict(t_towers *towers, int depth);
 
 void	print_towers(t_towers *towers);
 #endif
